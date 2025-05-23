@@ -1,132 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario Nube</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulario sobre la Nube</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to bottom, #000000, #1a1a1a);
-      color: #ffffff;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
       padding: 20px;
     }
-    h1, h2 {
-      color: #FFD700; /* dorado */
-      text-align: center;
-    }
-    form {
+    .form-container {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 10px;
       max-width: 600px;
-      margin: 0 auto;
-      background-color: #111111;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #FFD700;
+      margin: auto;
+      border: 2px solid gold;
     }
     label {
       display: block;
-      margin-top: 20px;
-      color: white;
+      margin: 10px 0 5px;
     }
-    select {
+    select, input[type="text"] {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+      padding: 8px;
+      margin-bottom: 15px;
       border-radius: 5px;
+      border: 1px solid #ccc;
     }
     button {
-      margin-top: 20px;
-      background-color: #FFD700;
+      background-color: gold;
       color: black;
-      padding: 10px 20px;
       border: none;
+      padding: 10px 20px;
+      font-size: 16px;
       border-radius: 5px;
       cursor: pointer;
     }
-    #puzzle {
-      margin: 40px auto;
-      max-width: 600px;
+    .logo {
       text-align: center;
-      background-color: #222;
-      padding: 20px;
-      border-radius: 12px;
-      border: 2px dashed #FFD700;
+      margin-bottom: 20px;
     }
-    #logo {
-      display: block;
-      margin: 0 auto 20px auto;
-      max-width: 150px;
+    .logo img {
+      width: 100px;
     }
   </style>
-</head>
-<body>
-  <img id="logo" src="logo.png" alt="Logo Blanco Negro y Dorado">
-  <h1>Formulario sobre la Nube</h1>
-  <form id="nubeForm">
-    <label>1. ¿Qué es la computación en la nube?
-      <select name="pregunta1">
-        <option value="">Selecciona una opción</option>
-        <option value="Almacenamiento remoto">Almacenamiento remoto</option>
-        <option value="Un sistema operativo">Un sistema operativo</option>
-        <option value="Un tipo de computadora">Un tipo de computadora</option>
-      </select>
-    </label>
-
-    <label>2. ¿Cuál es una ventaja de la nube?
-      <select name="pregunta2">
-        <option value="">Selecciona una opción</option>
-        <option value="Acceso desde cualquier lugar">Acceso desde cualquier lugar</option>
-        <option value="Mayor peso del equipo">Mayor peso del equipo</option>
-        <option value="Dependencia del papel">Dependencia del papel</option>
-      </select>
-    </label>
-
-    <label>3. ¿Qué proveedor es popular en servicios de nube?
-      <select name="pregunta3">
-        <option value="">Selecciona una opción</option>
-        <option value="AWS">AWS</option>
-        <option value="Google Drive">Google Drive</option>
-        <option value="Bluetooth">Bluetooth</option>
-      </select>
-    </label>
-
-    <label>4. ¿Qué tipo de servicio ofrece almacenamiento, redes y recursos virtuales?
-      <select name="pregunta4">
-        <option value="">Selecciona una opción</option>
-        <option value="IaaS">IaaS</option>
-        <option value="PaaS">PaaS</option>
-        <option value="SaaS">SaaS</option>
-      </select>
-    </label>
-
-    <label>5. ¿Qué modelo de nube es exclusivo para una empresa?
-      <select name="pregunta5">
-        <option value="">Selecciona una opción</option>
-        <option value="Nube Pública">Nube Pública</option>
-        <option value="Nube Privada">Nube Privada</option>
-        <option value="Nube Comunitaria">Nube Comunitaria</option>
-      </select>
-    </label>
-
-    <button type="submit">Enviar respuestas</button>
-  </form>
-
-  <div id="puzzle">
-    <h2>Completa la frase</h2>
-    <p>¿La nube permite trabajar...?</p>
-    <select id="puzzle-select">
-      <option value="">en el sofa</option>
-      <option value="en cualquier lugar">en cualquier lugar</option>
-      <option value="solo en la oficina">solo en la oficina</option>
-      <option value="sin internet">sin internet</option>
-    </select>
-    <p id="puzzle-result"></p>
-  </div>
-
-  <!-- Firebase -->
+  <!-- Firebase SDKs -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyANO0ch3gYmzycEWDFpTvP32boRUQ0lb7E",
@@ -142,34 +66,89 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    document.getElementById('nubeForm').addEventListener('submit', (e) => {
-      e.preventDefault();
+    window.enviarFormulario = function () {
+      const nombre = document.getElementById('nombre').value;
+      const curso = document.getElementById('curso').value;
+      const materia = document.getElementById('materia').value;
+      const respuestas = [1, 2, 3, 4, 5].map(i => document.getElementById(`pregunta${i}`).value);
 
-      const data = {
-        pregunta1: e.target.pregunta1.value,
-        pregunta2: e.target.pregunta2.value,
-        pregunta3: e.target.pregunta3.value,
-        pregunta4: e.target.pregunta4.value,
-        pregunta5: e.target.pregunta5.value
-      };
-
-      push(ref(db, 'respuestas/'), data)
-        .then(() => alert('✅ Respuestas enviadas con éxito'))
-        .catch((error) => alert('❌ Error al guardar: ' + error));
-    });
-
-    document.getElementById('puzzle-select').addEventListener('change', (e) => {
-      const respuesta = e.target.value;
-      const resultado = document.getElementById('puzzle-result');
-      if (respuesta === 'en cualquier lugar') {
-        resultado.textContent = '✅ ¡Correcto!';
-        resultado.style.color = '#00ff00';
-      } else {
-        resultado.textContent = '❌ Intenta de nuevo';
-        resultado.style.color = '#ff0000';
-      }
-    });
+      push(ref(db, 'respuestas/'), {
+        nombre,
+        curso,
+        materia,
+        pregunta1: respuestas[0],
+        pregunta2: respuestas[1],
+        pregunta3: respuestas[2],
+        pregunta4: respuestas[3],
+        pregunta5: respuestas[4],
+        timestamp: new Date().toISOString()
+      }).then(() => {
+        alert("¡Respuestas enviadas exitosamente!");
+        document.getElementById("formulario").reset();
+      }).catch(error => {
+        console.error("Error al enviar datos: ", error);
+      });
+    };
   </script>
+</head>
+<body>
+  <div class="logo">
+    <img src="logo.png" alt="Logo" />
+  </div>
+  <div class="form-container">
+    <h2>Formulario sobre la Nube</h2>
+    <form id="formulario" onsubmit="event.preventDefault(); enviarFormulario();">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" required />
+
+      <label for="curso">Curso:</label>
+      <input type="text" id="curso" required />
+
+      <label for="materia">Materia:</label>
+      <input type="text" id="materia" required />
+
+      <label for="pregunta1">1. ¿Qué es la computación en la nube?</label>
+      <select id="pregunta1" required>
+        <option value="">Seleccione una opción</option>
+        <option value="Almacenamiento remoto de datos">Almacenamiento remoto de datos</option>
+        <option value="Lenguaje de programación">Lenguaje de programación</option>
+        <option value="Sistema operativo">Sistema operativo</option>
+      </select>
+
+      <label for="pregunta2">2. ¿Cuál es una ventaja de la nube?</label>
+      <select id="pregunta2" required>
+        <option value="">Seleccione una opción</option>
+        <option value="Acceso desde cualquier lugar">Acceso desde cualquier lugar</option>
+        <option value="Mayor peso del hardware">Mayor peso del hardware</option>
+        <option value="Solo disponible offline">Solo disponible offline</option>
+      </select>
+
+      <label for="pregunta3">3. ¿Qué modelo de nube es más común?</label>
+      <select id="pregunta3" required>
+        <option value="">Seleccione una opción</option>
+        <option value="Pública">Pública</option>
+        <option value="Privada">Privada</option>
+        <option value="Híbrida">Híbrida</option>
+      </select>
+
+      <label for="pregunta4">4. ¿Cuál servicio ofrece almacenamiento?</label>
+      <select id="pregunta4" required>
+        <option value="">Seleccione una opción</option>
+        <option value="Google Drive">Google Drive</option>
+        <option value="Photoshop">Photoshop</option>
+        <option value="MS Word">MS Word</option>
+      </select>
+
+      <label for="pregunta5">5. ¿Qué proveedor NO es de nube?</label>
+      <select id="pregunta5" required>
+        <option value="">Seleccione una opción</option>
+        <option value="AWS">AWS</option>
+        <option value="Google Cloud">Google Cloud</option>
+        <option value="Windows XP">Windows XP</option>
+      </select>
+
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
 </body>
 </html>
-
