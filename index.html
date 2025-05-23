@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario sobre la Nube</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyANO0ch3gYmzycEWDFpTvP32boRUQ0lb7E",
+      authDomain: "proyecto-nube-52be2.firebaseapp.com",
+      databaseURL: "https://proyecto-nube-52be2-default-rtdb.firebaseio.com",
+      projectId: "proyecto-nube-52be2",
+      storageBucket: "proyecto-nube-52be2.appspot.com",
+      messagingSenderId: "870992334423",
+      appId: "1:870992334423:web:7dd0ee690bc7a13b1a5d12"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("formulario");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nombre = form.nombre.value;
+        const conocimiento = form.conocimiento.value;
+        const uso = form.uso.value;
+
+        const respuestasRef = ref(db, "respuestas");
+        push(respuestasRef, {
+          nombre,
+          conocimiento,
+          uso,
+          timestamp: new Date().toISOString()
+        });
+
+        form.reset();
+        alert("¡Gracias por tu respuesta!");
+      });
+    });
+  </script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      padding: 0.7rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Formulario sobre la Nube ☁️</h2>
+    <form id="formulario">
+      <label for="nombre">¿Cuál es tu nombre?</label>
+      <input type="text" name="nombre" required>
+
+      <label for="conocimiento">¿Cuánto sabes sobre computación en la nube?</label>
+      <select name="conocimiento" required>
+        <option value="" disabled selected>Selecciona una opción</option>
+        <option>Poco</option>
+        <option>Regular</option>
+        <option>Mucho</option>
+      </select>
+
+      <label for="uso">¿Para qué usarías la nube?</label>
+      <input type="text" name="uso" required>
+
+      <button type="submit">Enviar respuestas</button>
+    </form>
+  </div>
+
+</body>
+</html>
