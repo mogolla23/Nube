@@ -2,117 +2,174 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Formulario sobre la Nube</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Nube</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #000000, #1a1a1a);
+      color: #ffffff;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #FFD700; /* dorado */
+      text-align: center;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #111111;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #FFD700;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      color: white;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #FFD700;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #puzzle {
+      margin: 40px auto;
+      max-width: 600px;
+      text-align: center;
+      background-color: #222;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px dashed #FFD700;
+    }
+    #logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 150px;
+    }
+  </style>
+</head>
+<body>
+  <img id="logo" src="logo.png" alt="Logo Blanco Negro y Dorado">
+  <h1>Formulario sobre la Nube</h1>
+  <form id="nubeForm">
+    <label>1. ¿Qué es la computación en la nube?
+      <select name="pregunta1">
+        <option value="">Selecciona una opción</option>
+        <option value="Almacenamiento remoto">Almacenamiento remoto</option>
+        <option value="Un sistema operativo">Un sistema operativo</option>
+        <option value="Un tipo de computadora">Un tipo de computadora</option>
+      </select>
+    </label>
+
+    <label>2. ¿Cuál es una ventaja de la nube?
+      <select name="pregunta2">
+        <option value="">Selecciona una opción</option>
+        <option value="Acceso desde cualquier lugar">Acceso desde cualquier lugar</option>
+        <option value="Mayor peso del equipo">Mayor peso del equipo</option>
+        <option value="Dependencia del papel">Dependencia del papel</option>
+      </select>
+    </label>
+
+    <label>3. ¿Qué proveedor es popular en servicios de nube?
+      <select name="pregunta3">
+        <option value="">Selecciona una opción</option>
+        <option value="AWS">AWS</option>
+        <option value="Google Drive">Google Drive</option>
+        <option value="Bluetooth">Bluetooth</option>
+      </select>
+    </label>
+
+    <label>4. ¿Qué tipo de servicio ofrece almacenamiento, redes y recursos virtuales?
+      <select name="pregunta4">
+        <option value="">Selecciona una opción</option>
+        <option value="IaaS">IaaS</option>
+        <option value="PaaS">PaaS</option>
+        <option value="SaaS">SaaS</option>
+      </select>
+    </label>
+
+    <label>5. ¿Qué modelo de nube es exclusivo para una empresa?
+      <select name="pregunta5">
+        <option value="">Selecciona una opción</option>
+        <option value="Nube Pública">Nube Pública</option>
+        <option value="Nube Privada">Nube Privada</option>
+        <option value="Nube Comunitaria">Nube Comunitaria</option>
+      </select>
+    </label>
+
+    <button type="submit">Enviar respuestas</button>
+  </form>
+
+  <div id="puzzle">
+    <h2>🧩 Puzzle: Arrastra para completar</h2>
+    <p>¿La nube permite trabajar...?</p>
+    <select id="puzzle-select">
+      <option value="">Completa la frase</option>
+      <option value="en cualquier lugar">en cualquier lugar</option>
+      <option value="solo en la oficina">solo en la oficina</option>
+      <option value="sin internet">sin internet</option>
+    </select>
+    <p id="puzzle-result"></p>
+  </div>
+
+  <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyANO0ch3gYmzycEWDFpTvP32boRUQ0lb7E",
       authDomain: "proyecto-nube-52be2.firebaseapp.com",
       databaseURL: "https://proyecto-nube-52be2-default-rtdb.firebaseio.com",
       projectId: "proyecto-nube-52be2",
-      storageBucket: "proyecto-nube-52be2.appspot.com",
+      storageBucket: "proyecto-nube-52be2.firebasestorage.app",
       messagingSenderId: "870992334423",
-      appId: "1:870992334423:web:7dd0ee690bc7a13b1a5d12"
+      appId: "1:870992334423:web:7dd0ee690bc7a13b1a5d12",
+      measurementId: "G-1R37DS1CY6"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("formulario");
+    document.getElementById('nubeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
 
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const nombre = form.nombre.value;
-        const conocimiento = form.conocimiento.value;
-        const uso = form.uso.value;
+      const data = {
+        pregunta1: e.target.pregunta1.value,
+        pregunta2: e.target.pregunta2.value,
+        pregunta3: e.target.pregunta3.value,
+        pregunta4: e.target.pregunta4.value,
+        pregunta5: e.target.pregunta5.value
+      };
 
-        const respuestasRef = ref(db, "respuestas");
-        push(respuestasRef, {
-          nombre,
-          conocimiento,
-          uso,
-          timestamp: new Date().toISOString()
-        });
+      push(ref(db, 'respuestas/'), data)
+        .then(() => alert('✅ Respuestas enviadas con éxito'))
+        .catch((error) => alert('❌ Error al guardar: ' + error));
+    });
 
-        form.reset();
-        alert("¡Gracias por tu respuesta!");
-      });
+    document.getElementById('puzzle-select').addEventListener('change', (e) => {
+      const respuesta = e.target.value;
+      const resultado = document.getElementById('puzzle-result');
+      if (respuesta === 'en cualquier lugar') {
+        resultado.textContent = '✅ ¡Correcto!';
+        resultado.style.color = '#00ff00';
+      } else {
+        resultado.textContent = '❌ Intenta de nuevo';
+        resultado.style.color = '#ff0000';
+      }
     });
   </script>
-
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .form-container {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      width: 350px;
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 600;
-    }
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.3rem;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-    }
-    button {
-      margin-top: 1.5rem;
-      width: 100%;
-      background-color: #007bff;
-      color: white;
-      padding: 0.7rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="form-container">
-    <h2>Formulario sobre la Nube ☁️</h2>
-    <form id="formulario">
-      <label for="nombre">¿Cuál es tu nombre?</label>
-      <input type="text" name="nombre" required>
-
-      <label for="conocimiento">¿Cuánto sabes sobre computación en la nube?</label>
-      <select name="conocimiento" required>
-        <option value="" disabled selected>Selecciona una opción</option>
-        <option>Poco</option>
-        <option>Regular</option>
-        <option>Mucho</option>
-      </select>
-
-      <label for="uso">¿Para qué usarías la nube?</label>
-      <input type="text" name="uso" required>
-
-      <button type="submit">Enviar respuestas</button>
-    </form>
-  </div>
-
 </body>
 </html>
+
