@@ -66,12 +66,12 @@
     }
   </style>
 
-  <!-- Firebase SDKs (No modules, para mejor compatibilidad) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <script>
-    // Configuración Firebase
+    // Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyANO0ch3gYmzycEWDFpTvP32boRUQ0lb7E",
       authDomain: "proyecto-nube-52be2.firebaseapp.com",
@@ -99,7 +99,7 @@
 
       database.ref('respuestas/').push({
         nombre,
-        curso,
+        codigo,
         materia,
         pregunta1,
         pregunta2,
