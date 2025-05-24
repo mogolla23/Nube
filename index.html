@@ -89,7 +89,7 @@
 
     function enviarFormulario() {
       const nombre = document.getElementById('nombre').value;
-      const curso = document.getElementById('curso').value;
+      const codigo = document.getElementById('codigo').value;
       const materia = document.getElementById('materia').value;
       const pregunta1 = document.getElementById('pregunta1').value;
       const pregunta2 = document.getElementById('pregunta2').value;
@@ -99,7 +99,7 @@
 
       database.ref('respuestas/').push({
         nombre,
-        curso,
+        codigo,
         materia,
         pregunta1,
         pregunta2,
@@ -123,8 +123,8 @@
       <label for="nombre">Nombre:</label>
       <input type="text" id="nombre" required />
 
-      <label for="curso">Curso:</label>
-      <input type="text" id="curso" required />
+      <label for="codigo">Codigo:</label>
+      <input type="text" id="codigo" required />
 
       <label for="materia">Materia:</label>
       <input type="text" id="materia" required />
