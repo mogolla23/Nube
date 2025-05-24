@@ -66,12 +66,12 @@
     }
   </style>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDKs (No modules, para mejor compatibilidad) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <script>
-    // Firebase
+    // Configuración Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyANO0ch3gYmzycEWDFpTvP32boRUQ0lb7E",
       authDomain: "proyecto-nube-52be2.firebaseapp.com",
@@ -89,7 +89,7 @@
 
     function enviarFormulario() {
       const nombre = document.getElementById('nombre').value;
-      const codigo = document.getElementById('codigo').value;
+      const curso = document.getElementById('curso').value;
       const materia = document.getElementById('materia').value;
       const pregunta1 = document.getElementById('pregunta1').value;
       const pregunta2 = document.getElementById('pregunta2').value;
@@ -99,7 +99,7 @@
 
       database.ref('respuestas/').push({
         nombre,
-        codigo,
+        curso,
         materia,
         pregunta1,
         pregunta2,
